@@ -1,0 +1,185 @@
+.dropbtn {
+    background: none;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+  }
+
+.dropbtn:hover, .dropbtn:focus {
+    color: #095ab1;
+  }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content .drop-content {
+    color: black;
+    position: relative;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: inline-block;
+    border-bottom: 1px solid #000000;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    z-index: 1;
+
+}
+
+.user-options :hover {
+  color: rgb(184, 184, 184)
+}
+
+.drop-content form {
+    text-align: right;
+}
+
+
+
+.show {display: block;}
+
+.line {
+  display: inline-block;
+  border-top: 1px solid red; /* Adjust line color */
+  width: 50%; /* Adjust the width of the line as needed */
+  position: relative;
+  top: -0.7em; /* Adjust vertical position */
+  z-index: 1; /* Ensure the line is above the text */
+}
+
+.product-contianer {
+  display: flex; 
+}
+
+.product-image {
+  border: 0.5px solid black;
+  width: 48px; 
+  height: 72px;
+  margin-right: 10px;
+}
+
+.product-name {
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.product-details {
+  font-weight: normal;
+}
+
+.product-details p {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-box {
+  position: absolute;
+  top: 0;
+  left: 100%; /* Position it to the right of the image */
+  display: none;
+  width: 144px; /* Adjust the width as needed */
+  height: 205px;
+  background-color: #4b545c;
+  padding: 10px;
+  transition: opacity 0.3s ease-in-out; /* Add a smooth transition effect */
+}
+
+.hover-box::before {
+  content: '';
+  position: absolute;
+  top: 20px; /* Adjust the distance from the top of the hover box */
+  left: -5px; /* Adjust the distance from the right of the image */
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: transparent transparent transparent #4b545c;
+  transform: rotate(45deg);
+}
+
+.image-container:hover .hover-box {
+  display: block;
+  opacity: 1; /* Show the box when hovering over the container */
+}
+
+
+
+
+#popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  z-index: 9999;
+}
+
+#popup-content {
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  animation: fade-in 0.3s ease-out;
+}
+
+#popup-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+
+
+#popup-header button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+#popup-header button:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+

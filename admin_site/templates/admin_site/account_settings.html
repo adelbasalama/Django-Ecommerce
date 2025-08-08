@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Account Settings</h1>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Account Settings</li>
+                  </ol>
+                </div>
+              </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">General Settings</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form method="POST" enctype="multipart/form-data" action="">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">First Name</label>
+                                    {{form.first_name}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Last Name</label>
+                                    {{form.last_name}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">File input</label>
+                                    <div class="input-group">
+                                    <div class="custom-file">
+                                        {{form.profile_picture}}
+                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Upload</span>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="image" style="width: 50%; height: 100%;">
+                                    {% if user.profile_picture.url is not None %}
+                                    <img src="{{ user.profile_picture.url }}" class="img-circle elevation-2" alt="User Image" style="width: 50%; height: 100%;">
+                                    {% endif %}
+                                  </div>
+                                </div>
+                                <!-- /.card-body -->
+                
+                                <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card -->
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Security Settings</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" value="{{user.email}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Current Password</label>
+                                        {{changePasswordForm.old_password}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">New Password</label>
+                                        {{changePasswordForm.new_password1}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Confirm New Password</label>
+                                        {{changePasswordForm.new_password2}}
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                
+                                <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+            
+        
+        
+    </div>
+</div>
+{% endblock content %}

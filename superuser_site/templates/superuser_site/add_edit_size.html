@@ -1,0 +1,46 @@
+{% extends 'superuser_main.html'%}
+
+{% block content%}
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Quick Example</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form method="POST" enctype="multipart/form-data" action="">
+                  {% csrf_token %}
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="name">Size Name</label>
+                      {{form.name}}
+                    </div>
+                    <div class="form-group">
+                      <label for="name">Size Description</label>
+                      {{form.description}}
+                    </div>
+                    <div class="form-group">
+                      <label for="active">Activation</label>
+                      {{form.active}}
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-danger">
+                      <a href="{% url 'sizes' %}" style="text-decoration: none; color: inherit;">CANCEL</a>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock content%}

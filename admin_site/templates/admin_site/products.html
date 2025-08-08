@@ -1,0 +1,286 @@
+{% extends 'main.html'%}
+
+{% block content%}
+<style>
+    .card-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+    .button {
+        display: inline-block;
+        margin:auto;
+        margin-right: 0px;
+    }
+    .title {
+        display: inline-block;
+        margin: auto;
+        margin-left: 0px;
+    }
+
+    .collapsible {
+      cursor: pointer;
+      user-select: none;
+    }
+    .content {
+      display: none;
+      max-height: 0;
+      transition: max-height 10s ease-out;
+    }
+    .content.show {
+      display: table-row;
+      max-height: 1000px; /* Adjust as needed */
+      transition: max-height 10s ease-in;
+    }
+</style>
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header card-container">
+                        <div class="title">
+                            <h3 class="card-title">Products</h3>
+                        </div>
+                      <div class="button">
+                        <button type="button" class="btn btn-primary">
+                            <a href="{% url 'add-product' %}" style="text-decoration: none; color: inherit;">ADD</a>
+                        </button>
+                      </div>
+                      
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <table id="products" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Product Info.</th>
+                          <th>Size</th>
+                          <th>price</th>
+                          <th>stock</th>
+                          <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for stock in page_obj %}
+                        <tr style="background-color: rgba(0, 0, 0, 0.05);">
+                          <td class="collapsible" onclick="extendItems('{{ stock.code }}')">
+                            <i class="fas fa-minus"></i>
+                          </td>
+                          <td>
+                            <div class="product-contianer">
+                              {% if stock.product.thumb.url is not none %}
+                              <div class="image-container">
+                                <img class="product-image" src="{{ stock.product.thumb.url }}" alt="Image">
+                                <div class="hover-box">
+                                  <img class="product-image" src="{{ stock.product.thumb.url }}" alt="Image" style="width: max-content; height: max-content;">
+                                  <!-- Additional content for the box can be added here -->
+                                </div>
+                              </div>
+                              
+                              {% endif %}
+                              <div class="product-name">
+                                <a href="#" style="color:black;text-decoration: underline;">{{stock.product.name}}</a>
+                                <div class="product-details">
+                                  <p><strong>Product Code:</strong> {{stock.code}}</p>
+                                  <p><strong>Color:</strong> {{stock.color}}</p>
+                                </div>
+                              </div>
+                              
+                            </div>
+                            
+                          </td>
+                          <td>-</td>
+                          <td>
+                            {% for code, price in prices.items %}
+                                {% if code == stock.code %}
+                                  {% if price.min_price == price.max_price %}
+                                    {{price.min_price}} TL
+                                  {% else %}
+                                    {{price.min_price}} - {{price.max_price}} TL
+                                  {% endif %}
+                                {% endif%}
+                              {% endfor %}
+                          </td>
+                          {% for code, total_quantity in total_quantities.items %}
+                            {% if code == stock.code %}
+                            <td>{{total_quantity}}</td>
+                            {% endif%}
+                          {% endfor%}
+                          <td>
+                            <form action="POST" style="width: 30px; display: inline;">
+                              {% csrf_token %}
+                              <a href="">
+                              {% for code, is_active in all_active.items %}
+                                {% if code == stock.code %}
+                                  {% if is_active  %}
+                                    <i id="activation" class="nav-icon fas activation fa-toggle-on" name="active" data-value="1" data-url="{% url 'update-all-activation' stock.product.id %}"></i>
+                                  {% else %}
+                                  <i id="activation" class="nav-icon fas activation fa-toggle-off" name="active" data-value="0" data-url="{% url 'update-all-activation' stock.product.id %}"></i>
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                              </a>
+                            </form>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'add-product-code' stock.product.id%}">
+                              <i class="nav-icon fas fa-plus"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a class="deleteButton" href="">
+                              <i class="nav-icon fas fa-trash deleteButton" data-delete-url="{% url 'delete-all-products' stock.product.id %}" style="color: red;"></i>
+                            </a>
+                          </td>
+                        </tr>
+                        {% for subStock in stocks %}
+                          {% if subStock.code == stock.code %}
+                          <tr class="content" name="content-{{stock.code}}">
+                            
+                              <td>
+                              </td>
+                              <td>
+                                <div class="product-contianer">
+                                  {% if subStock.product.thumb.url is not none %}
+                                  <div class="image-container">
+                                    <img class="product-image" src="{{ subStock.product.thumb.url }}" alt="Image">
+                                    <div class="hover-box">
+                                      <img class="product-image" src="{{ subStock.product.thumb.url }}" alt="Image" style="width: max-content; height: max-content;">
+                                      <!-- Additional content for the box can be added here -->
+                                    </div>
+                                  </div>
+                                  
+                                  {% endif %}
+                                  <div class="product-name">
+                                    <a href="#" style="color:black;text-decoration: underline;">{{subStock.product.name}}</a>
+                                    <div class="product-details">
+                                      <p><strong>Product Code:</strong> {{subStock.code}}</p>
+                                      <p><strong>Color:</strong> {{subStock.color}}</p>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                                
+                              </td>
+                              <td>{{subStock.size}}</td>
+                              <td>
+                                {% if subStock.product.discount is not none %}
+                                
+                                  <div style="text-decoration: line-through; display: inline;">
+                                    {{subStock.product.price}} TL
+                                  </div>
+                                  <div style=" color: red; display: inline; padding-left: 15px;">
+                                    {{subStock.product.discounted_price}} TL
+                                  </div>
+                                
+                                {% else %}
+                                  {{subStock.product.price}} TL
+                                {% endif %}
+                              </td>
+                              <td>{{subStock.quantity}}</td>
+                              <td>
+                                <form action="POST" style="width: 30px; display: inline;">
+                                  {% csrf_token %}
+                                  <a href="">
+                                  {% if subStock.product.active  %}
+                                    <i id="activation" class="nav-icon fas activation fa-toggle-on" name="active" data-value="1" data-url="{% url 'update-activation' subStock.product.id %}"></i>
+                                  {% else %}
+                                  <i id="activation" class="nav-icon fas activation fa-toggle-off" name="active" data-value="0" data-url="{% url 'update-activation' subStock.product.id %}"></i>
+                                  {% endif %}
+                                  </a>
+                                </form>
+                              
+                              <div class="dropdown">
+                                <button onclick="myFunction({{ subStock.product.id }})" class="dropbtn">
+                                  <i class="nav-icon fas fa-percent dropbtn"></i>
+                                </button>
+                                
+                                <div id="myDropdown-{{subStock.product.id}}" class="dropdown-content">
+                                  {% for discount in discounts%}
+                                  <div class="drop-content">
+                                    <div style="display: inline-block;">{{ discount.name}} : %{{ discount.discount_percent}}</div>
+                                    <form action="POST" >
+                                      {% csrf_token %}
+                                      
+                                      
+                                        <a href="">
+                                          {% if subStock.product.discount == discount  %}
+                                            <i id="activation" class="nav-icon fas activation fa-toggle-on" name="active" data-value="1" data-url="{% url 'update-discount-product' subStock.product.id discount.id %}"></i>
+                                          {% else %}
+                                          <i id="activation" class="nav-icon fas activation fa-toggle-off" name="active" data-value="0" data-url="{% url 'update-discount-product' subStock.product.id discount.id %}"></i>
+                                          {% endif %}
+                                          </a>
+                                    
+                                      
+                                    </form>
+                                  </div>
+                                  {% endfor%}
+                                </div>
+                              </div>
+                              
+                              <a href="{% url 'edit-product' subStock.product.id %}">
+                                <i class="nav-icon fas fa-edit"></i>
+                              </a>
+                              &nbsp;
+                              <a class="deleteButton" href="">
+                                <i class="nav-icon fas fa-trash deleteButton" data-delete-url="{% url 'delete-product' subStock.product.id %}" style="color: red;"></i>
+                              </a>
+                              </td>
+                              
+                            
+                          </tr>
+                          {% endif %}
+                        {% endfor %}
+                        {% endfor%}
+                        </tbody>
+                      </table>
+                      <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                          <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 11 entries</div>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                          <div class="dataTables_paginate paging_simple_numbers" >
+                            <ul class="pagination" style="justify-content: flex-end;">
+                              {% if page_obj.has_previous %}
+                              <li class="paginate_button page-item previous">
+                                <a href="?page={{ page_obj.previous_page_number }}" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                              </li>
+                              {% else %}
+                              <li class="paginate_button page-item previous disabled">
+                                <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                              </li>
+                              {% endif %}
+                              {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                <li class="paginate_button page-item active">
+                                  <a href="#" class="page-link">{{num}}</a>
+                                </li>
+                                {% else %}
+                                <li class="paginate_button page-item">
+                                  <a href="?page={{ num }}" class="page-link">{{num}}</a>
+                                </li>
+                                {% endif %}
+                              {% endfor %}
+                              
+                              {% if page_obj.has_next %}
+                              <li class="paginate_button page-item next" id="example1_next"><a href="?page={{ page_obj.next_page_number }}" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">Next</a>
+                              </li>
+                              {% else %}
+                              <li class="paginate_button page-item next disabled" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">Next</a>
+                              </li>
+                              {% endif %}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+{% endblock content%}

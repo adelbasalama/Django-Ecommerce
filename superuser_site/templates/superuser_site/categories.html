@@ -1,0 +1,88 @@
+{% extends 'superuser_main.html'%}
+
+{% block content%}
+<style>
+    .card-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+    .button {
+        display: inline-block;
+        margin:auto;
+        margin-right: 0px;
+    }
+    .title {
+        display: inline-block;
+        margin: auto;
+        margin-left: 0px;
+    }
+</style>
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header card-container">
+                        <div class="title">
+                            <h3 class="card-title">Categories</h3>
+                        </div>
+                      <div class="button">
+                        <button type="button" class="btn btn-primary">
+                            <a href="{% url 'add-category' %}" style="text-decoration: none; color: inherit;">ADD</a>
+                        </button>
+                      </div>
+                      
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <table id="example1" class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Category Pattern</th>
+                          <th>Description</th>
+                          <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for category in categories%}
+                        <tr>
+                          <td>{{category.name}}</td>
+                          <td>{{category}}</td>
+                          <td>{{category.description}}</td>
+                          <td>
+                            <form action="POST" style="width: 30px; display: inline;">
+                              {% csrf_token %}
+                              <a href="">
+                              {% if category.active  %}
+                                <i id="activation" class="nav-icon fas activation fa-toggle-on" name="active" data-value="1" data-url="{% url 'update-activation-category' category.id %}"></i>
+                              {% else %}
+                              <i id="activation" class="nav-icon fas activation fa-toggle-off" name="active" data-value="0" data-url="{% url 'update-activation-category' category.id %}"></i>
+                              {% endif %}
+                              </a>
+                            </form>
+                            &nbsp;
+                            <a href="{% url 'edit-category' category.id %}">
+                              <i class="nav-icon fas fa-edit"></i>
+                            </a>
+                            &nbsp;
+                            <a class="deleteButton" href="">
+                              <i class="nav-icon fas fa-trash deleteButton" data-delete-url="{% url 'delete-category' category.id %}" style="color: red;"></i>
+                            </a>
+                          </td>
+                        </tr>
+                        {% endfor%}
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+{% endblock content%}

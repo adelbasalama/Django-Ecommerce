@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    <!-- Mirrored from colorlib.com/etc/lf/Login_v10/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Mar 2024 18:55:05 GMT -->
+    <head>
+        <title>Login V10</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/vendor/bootstrap/css/bootstrap.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/vendor/animate/animate.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/vendor/css-hamburgers/hamburgers.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/vendor/animsition/css/animsition.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/vendor/select2/select2.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/vendor/daterangepicker/daterangepicker.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/util.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/main.css' %}">
+
+        <meta name="robots" content="noindex, follow">
+        <!-- <script nonce="3271f72e-6500-4e77-9cc4-2480d79d1b20">try{(function(w,d){!function(k,l,m,n){k[m]=k[m]||{};k[m].executed=[];k.zaraz={deferred:[],listeners:[]};k.zaraz.q=[];k.zaraz._f=function(o){return async function(){var p=Array.prototype.slice.call(arguments);k.zaraz.q.push({m:o,a:p})}};for(const q of["track","set","debug"])k.zaraz[q]=k.zaraz._f(q);k.zaraz.init=()=>{var r=l.getElementsByTagName(n)[0],s=l.createElement(n),t=l.getElementsByTagName("title")[0];t&&(k[m].t=l.getElementsByTagName("title")[0].text);k[m].x=Math.random();k[m].w=k.screen.width;k[m].h=k.screen.height;k[m].j=k.innerHeight;k[m].e=k.innerWidth;k[m].l=k.location.href;k[m].r=l.referrer;k[m].k=k.screen.colorDepth;k[m].n=l.characterSet;k[m].o=(new Date).getTimezoneOffset();if(k.dataLayer)for(const x of Object.entries(Object.entries(dataLayer).reduce(((y,z)=>({...y[1],...z[1]})),{})))zaraz.set(x[0],x[1],{scope:"page"});k[m].q=[];for(;k.zaraz.q.length;){const A=k.zaraz.q.shift();k[m].q.push(A)}s.defer=!0;for(const B of[localStorage,sessionStorage])Object.keys(B||{}).filter((D=>D.startsWith("_zaraz_"))).forEach((C=>{try{k[m]["z_"+C.slice(7)]=JSON.parse(B.getItem(C))}catch{k[m]["z_"+C.slice(7)]=B.getItem(C)}}));s.referrerPolicy="origin";s.src="../../../cdn-cgi/zaraz/sd0d9.js?z="+btoa(encodeURIComponent(JSON.stringify(k[m])));r.parentNode.insertBefore(s,r)};["complete","interactive"].includes(l.readyState)?zaraz.init():k.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document)}catch(e){throw fetch("/cdn-cgi/zaraz/t"),e;};</script> -->
+    </head>
+    <body>
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100 p-t-50 p-b-90">
+                    {% if messages %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        {% for message in messages %}
+                        {{ message }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if page == 'login' %}
+                    <form method="POST" action="" class="login100-form validate-form flex-sb flex-w">
+                        {% csrf_token%}
+                        <span class="login100-form-title p-b-51">Login</span>
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                            {{form.email}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                            {{form.password}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="flex-sb-m w-full p-t-3 p-b-24">
+                            <div class="contact100-form-checkbox">
+                                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                                <label class="label-checkbox100" for="ckb1">
+                                Remember me
+                                </label>
+                            </div>
+                            <div>
+                                <a href="#" class="txt1">
+                                Forgot?
+                                </a>
+                            </div>
+                        </div>
+                        <div class="container-login100-form-btn m-t-17">
+                            <button class="login100-form-btn">
+                            Login
+                            </button>
+                        </div>
+                    </form>
+                    <div class="flex-sb-m w-full p-t-3 p-b-24">
+                        <div>
+                            <label for="">Don't have an account?</label>
+                            <a href="{% url 'register' %}" class="txt1">Register</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <form method="POST" action="" class="login100-form validate-form flex-sb flex-w">
+                        {% csrf_token%}
+                        <span class="login100-form-title p-b-51">Register</span>
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                            {{form.first_name}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                            {{form.last_name}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                            {{form.email}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                            {{form.password1}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                            {{form.password2}}
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="container-login100-form-btn m-t-17">
+                            <button class="login100-form-btn">
+                            Login
+                            </button>
+                        </div>
+                    </form>
+                    <div class="flex-sb-m w-full p-t-3 p-b-24">
+                        <div>
+                            <label for="">Already have an account?</label>
+                            <a href="{% url 'login' %}" class="txt1">Login</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="dropDownSelect1"></div>
+
+        <script src="{% static 'login_register/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+
+        <script src="{% static 'login_register/vendor/animsition/js/animsition.min.js' %}"></script>
+
+        <script src="{% static 'login_register/vendor/bootstrap/js/popper.js' %}"></script>
+        <script src="{% static 'login_register/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+        <script src="{% static 'login_register/vendor/select2/select2.min.js' %}"></script>
+
+        <script src="{% static 'login_register/vendor/daterangepicker/moment.min.js' %}"></script>
+        <script src="{% static 'login_register/vendor/daterangepicker/daterangepicker.js' %}"></script>
+
+        <script src="{% static 'login_register/vendor/countdowntime/countdowntime.js' %}"></script>
+
+        <script src="{% static 'login_register/js/main.js' %}"></script>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+        <!-- <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-23581568-13');
+            </script> -->
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"86b9d5183aae68ab","b":1,"version":"2024.3.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
+    </body>
+
+    <!-- Mirrored from colorlib.com/etc/lf/Login_v10/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Mar 2024 18:55:10 GMT -->
+</html>
