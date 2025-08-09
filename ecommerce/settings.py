@@ -87,19 +87,19 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'ecommerce',
-    #     'USER': 'root',
-    #     'PASSWORD': 'Basalamah1',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    # }
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/postgres',
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ecommerce',
+        'USER': 'root',
+        'PASSWORD': 'Basalamah1',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+    # 'default': dj_database_url.config(
+    #     default='postgresql://postgres:postgres@localhost:5432/postgres',
+    #     conn_max_age=600,
+    #     ssl_require=True
+    # )
 }
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
