@@ -6,6 +6,7 @@ cycler==0.12.1
 dj-database-url==3.0.1
 Django==5.0.3
 fonttools==4.43.1
+gunicorn==23.0.0
 idna==3.7
 kiwisolver==1.4.5
 matplotlib==3.8.0
